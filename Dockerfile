@@ -10,9 +10,11 @@ COPY composer.lock composer.lock
 
 RUN apt-get update && \
     apt-get install unzip \
-    && composer install
+    && composer install \
+    && ls -la /app \
+    && pwd
 
-ENTRYPOINT ["php", "index.php"]
+ENTRYPOINT ["php", "/app/index.php"]
 
 #FROM php:8.1-cli as prod
 #
