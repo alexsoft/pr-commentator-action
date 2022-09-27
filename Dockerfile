@@ -10,9 +10,7 @@ COPY composer.lock composer.lock
 
 RUN apt-get update && \
     apt-get install unzip \
-    && composer install \
-    && ls -la /app \
-    && pwd
+    && composer install --no-dev --classmap-authoritative
 
 ENTRYPOINT ["php", "/app/index.php"]
 
