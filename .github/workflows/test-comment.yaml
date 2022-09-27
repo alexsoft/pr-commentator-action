@@ -6,7 +6,7 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - uses: alexsoft/pr-commentator-action@dev-main
+      - uses: alexsoft/pr-commentator-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
