@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Github\AuthMethod;
 use Github\Client;
 
 require 'vendor/autoload.php';
@@ -25,7 +26,7 @@ $event = json_decode(
 );
 
 $github = new Client();
-$github->authenticate($githubToken);
+$github->authenticate($githubToken, authMethod: AuthMethod::ACCESS_TOKEN);
 
 // GET MESSAGE
 $message = $argv[1] ?? '';
