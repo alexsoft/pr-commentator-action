@@ -1,0 +1,13 @@
+name: PR commentator
+author: Alex Plekhanov <alex@plekhanov.io>
+description: Write a comment to pull request.
+inputs:
+  message:
+    description: Message for comment
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.message }}
