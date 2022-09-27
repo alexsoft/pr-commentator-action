@@ -45,7 +45,7 @@ if (getenv('GITHUB_EVENT_NAME') === 'pull_request') {
 
     [$username, $repo] = explode('/', $repositoryName);
 
-    $github->pullRequests()->comments()->create(
+    $github->issues()->comments()->create(
         $username,
         $repo,
         $prId,
