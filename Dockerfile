@@ -4,9 +4,13 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-COPY ./ ./
+COPY index.php index.php
+COPY composer.json composer.json
+COPY composer.lock composer.lock
 
-RUN composer install
+RUN apt-get update && \
+    apt-get install unzip \
+    && composer install
 
 ENTRYPOINT ["php", "index.php"]
 
