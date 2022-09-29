@@ -2,11 +2,9 @@ FROM php:8.1-cli as dev
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
-
-COPY index.php index.php
-COPY composer.json composer.json
-COPY composer.lock composer.lock
+COPY index.php     /app/index.php
+COPY composer.json /app/composer.json
+COPY composer.lock /app/composer.lock
 
 RUN apt-get update && \
     apt-get install unzip \
