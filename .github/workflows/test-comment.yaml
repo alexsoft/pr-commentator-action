@@ -11,3 +11,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           message: "Hello World"
+          duplicate_message_substring: Hello

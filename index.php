@@ -40,19 +40,40 @@ if (!is_string($message) || $message === '') {
 
 $repositoryName = $event['repository']['full_name'];
 
-if (getenv('GITHUB_EVENT_NAME') === 'pull_request') {
-    $prId = $event['number'];
-
-    [$username, $repo] = explode('/', $repositoryName);
-
-    $github->issues()->comments()->create(
-        $username,
-        $repo,
-        $prId,
-        [
-            'body' => $message,
-        ],
-    );
+if (getenv('GITHUB_EVENT_NAME') !== 'pull_request') {
+    echo "Action can only run for pull requests." . PHP_EOL;
+    exit(1);
 }
+
+$checkForDuplicateMessage = $argv[2] === 'yes';
+$duplicateMessageSubstring = $argv[3];
+
+$prId = $event['number'];
+
+[$username, $repository] = explode('/', $repositoryName);
+
+if ($checkForDuplicateMessage) {
+    $comments = $github->issues()->comments()->all($username, $repository, $prId);
+
+    foreach ($comments as $comment) {
+        if ($duplicateMessageSubstring === '~' && $comment['body'] === $message) {
+            echo 'Comment already exists.' . PHP_EOL.
+            exit(0);
+        }
+
+        if (str_contains($comment['body'], $duplicateMessageSubstring)) {
+            $github->issues()->comments()->remove($username, $repository, $comment['id']);
+        }
+    }
+}
+
+$github->issues()->comments()->create(
+    $username,
+    $repository,
+    $prId,
+    [
+        'body' => $message,
+    ],
+);
 
 exit(0);
