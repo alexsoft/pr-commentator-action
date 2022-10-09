@@ -5,9 +5,19 @@ inputs:
   message:
     description: Message for comment
     required: true
+  check_for_duplicate_message:
+    description: If no, action doesn't check for duplicate message.
+    required: false
+    default: yes
+  duplicate_message_substring:
+    description: Messages that contain provided substring, will be removed before writing a new comment.
+    required: false
+    default: "~"
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.message }}
+    - ${{ inputs.check_for_duplicate_message }}
+    - ${{ inputs.duplicate_message_substring }}

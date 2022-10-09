@@ -1,0 +1,14 @@
+name: Test comment
+
+on: pull_request
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alexsoft/pr-commentator-action@test-action-1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: "Hello World"
+          duplicate_message_substring: Hello

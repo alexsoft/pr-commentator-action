@@ -1,18 +1,19 @@
 FROM php:8.1-cli as dev
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
 WORKDIR /app
 
-COPY index.php index.php
-COPY composer.json composer.json
-COPY composer.lock composer.lock
-
 RUN apt-get update && \
-    apt-get install unzip \
-    && composer install
+    apt-get install unzip
 
-ENTRYPOINT ["php", "index.php"]
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY index.php     /app/
+COPY composer.json /app/
+COPY composer.lock /app/
+
+RUN composer install --no-dev --classmap-authoritative
+
+ENTRYPOINT ["php", "/app/index.php"]
 
 #FROM php:8.1-cli as prod
 #
